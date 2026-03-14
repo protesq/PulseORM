@@ -169,6 +169,96 @@ class User extends Model { ... }
 
 ---
 
+### Validators
+
+PulseORM includes a built-in validation system to ensure data integrity before persisting to the database.
+
+#### Type Validators
+
+```ts
+import { 
+  isString, 
+  isNumber, 
+  isBoolean, 
+  isDate, 
+  isObject, 
+  isArray 
+} from './packages/utils/validators';
+
+isString('hello');        // true
+isNumber(42);             // true
+isBoolean(true);          // true
+isDate(new Date());       // true
+isObject({ key: 'val' }); // true
+isArray([1, 2, 3]);       // true
+```
+
+#### Column Validation
+
+```ts
+import { validateColumn } from './packages/utils/validators';
+
+const columnOptions = { 
+  type: 'STRING', 
+  length: 50, 
+  nullable: false 
+};
+
+try {
+  validateColumn('John Doe', columnOptions); // passes
+  validateColumn(null, columnOptions);       // throws ValidationError
+} catch (error) {
+  console.error(error.message);
+}
+```
+
+#### Additional Validators
+
+```ts
+import { 
+  isEmail, 
+  isURL, 
+  isInRange, 
+  hasValidLength, 
+  matchesPattern 
+} from './packages/utils/validators';
+
+isEmail('user@example.com');           // true
+isURL('https://example.com');          // true
+isInRange(5, 0, 10);                   // true
+hasValidLength('test', 2, 10);         // true
+matchesPattern('abc123', /^[a-z0-9]+$/); // true
+```
+
+#### Custom Validators
+
+```ts
+import { runCustomValidator } from './packages/utils/validators';
+
+const customValidator = (value: any) => value > 18;
+await runCustomValidator(25, customValidator); // true
+
+// Async validator
+const asyncValidator = async (value: any) => {
+  const exists = await checkDatabase(value);
+  return !exists;
+};
+await runCustomValidator('unique@email.com', asyncValidator);
+```
+
+#### Validation Features
+
+- ✓ Type checking for all DataTypes
+- ✓ NULL/undefined validation
+- ✓ String length constraints
+- ✓ Numeric precision and scale validation
+- ✓ Email and URL validation
+- ✓ Pattern matching with RegExp
+- ✓ Custom sync/async validators
+- ✓ Descriptive error messages with `ValidationError`
+
+---
+
 ## Türkçe
 
 ### Neden PulseORM?
@@ -312,5 +402,95 @@ class User extends Model { ... }
 ### Desteklenen Veri Tipleri
 
 `STRING`, `INTEGER`, `FLOAT`, `BOOLEAN`, `DATE`, `TIME`, `TIMESTAMP`, `JSON`, `TEXT`
+
+---
+
+### Validasyon (Validators)
+
+PulseORM, veritabanına kaydedilmeden önce veri bütünlüğünü sağlamak için yerleşik bir doğrulama sistemi içerir.
+
+#### Tip Doğrulayıcıları
+
+```ts
+import { 
+  isString, 
+  isNumber, 
+  isBoolean, 
+  isDate, 
+  isObject, 
+  isArray 
+} from './packages/utils/validators';
+
+isString('merhaba');      // true
+isNumber(42);             // true
+isBoolean(true);          // true
+isDate(new Date());       // true
+isObject({ key: 'val' }); // true
+isArray([1, 2, 3]);       // true
+```
+
+#### Kolon Doğrulama
+
+```ts
+import { validateColumn } from './packages/utils/validators';
+
+const columnOptions = { 
+  type: 'STRING', 
+  length: 50, 
+  nullable: false 
+};
+
+try {
+  validateColumn('Ali Veli', columnOptions); // geçer
+  validateColumn(null, columnOptions);       // ValidationError fırlatır
+} catch (error) {
+  console.error(error.message);
+}
+```
+
+#### Ek Doğrulayıcılar
+
+```ts
+import { 
+  isEmail, 
+  isURL, 
+  isInRange, 
+  hasValidLength, 
+  matchesPattern 
+} from './packages/utils/validators';
+
+isEmail('kullanici@ornek.com');        // true
+isURL('https://ornek.com');            // true
+isInRange(5, 0, 10);                   // true
+hasValidLength('test', 2, 10);         // true
+matchesPattern('abc123', /^[a-z0-9]+$/); // true
+```
+
+#### Özel Doğrulayıcılar
+
+```ts
+import { runCustomValidator } from './packages/utils/validators';
+
+const customValidator = (value: any) => value > 18;
+await runCustomValidator(25, customValidator); // true
+
+// Async validator
+const asyncValidator = async (value: any) => {
+  const mevcutMu = await veritabanindaKontrolEt(value);
+  return !mevcutMu;
+};
+await runCustomValidator('benzersiz@email.com', asyncValidator);
+```
+
+#### Validasyon Özellikleri
+
+- ✓ Tüm DataType'lar için tip kontrolü
+- ✓ NULL/undefined doğrulama
+- ✓ String uzunluk kısıtlamaları
+- ✓ Sayısal hassasiyet ve ölçek doğrulama
+- ✓ Email ve URL doğrulama
+- ✓ RegExp ile desen eşleştirme
+- ✓ Özel senkron/asenkron doğrulayıcılar
+- ✓ `ValidationError` ile açıklayıcı hata mesajları
 
 ---
