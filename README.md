@@ -22,6 +22,8 @@
 
 **Language / Dil:** [English](#english) | [Türkçe](#türkçe)
 
+📋 **[View Changelog / Değişiklikleri Gör](CHANGELOG.md)**
+
 ---
 
 ## English
