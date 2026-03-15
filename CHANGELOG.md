@@ -29,6 +29,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Usage examples for all validator functions
   - Custom validator implementation guide
 
+- **Relationship System** (`packages/core/relationships.ts`)
+  - `hasOne()` - Fetch a single related record by foreign key (1-1 relation)
+  - `hasMany()` - Fetch multiple related records by foreign key (1-N relation)
+
 ### Changed
 - Updated `package.json` with Jest test scripts
 - Added `.gitignore` to exclude coverage reports and temporary files
@@ -97,6 +101,10 @@ PulseORM'deki tüm önemli değişiklikler bu dosyada belgelenecektir.
   - README'ye Validators bölümü eklendi (İngilizce ve Türkçe)
   - Tüm validator fonksiyonları için kullanım örnekleri
   - Özel validator implementasyon rehberi
+
+- **İlişki Sistemi** (`packages/core/relationships.ts`)
+  - `hasOne()` - Foreign key ile tek ilgili kaydı getirme (1-1 ilişki)
+  - `hasMany()` - Foreign key ile birden fazla ilgili kaydı getirme (1-N ilişki)
 
 ### Değiştirildi
 - `package.json` Jest test scriptleri ile güncellendi
